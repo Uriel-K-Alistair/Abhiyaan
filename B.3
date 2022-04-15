@@ -6,10 +6,18 @@ This will give us a 3D point cloud of data, where we can imagine we keep a dot a
 • Each square is now a thin cuboid of data, with dots in places where stuff exists. We take the variance of the heights of these data points.
 If the variance crosses a certain threshold, we flag the grid cell as 1 (meaning "stuff is here.") If its low variance data, we flag it as 0.
 
-Quick Remark:
-If there is some planar object, or even somewhat flat obstacle, say, a large metal sheet sticking out of a truck, that is NOT getting detected.
-Keep in mind that the real objective here is to detect intersections, so this won't be an issue. 
-The walls, buidings, trees or whatever it is that bounds the roads, WILL get detected, and when we filter out the pedestrians and vehicles, we can happily detect the intersections.
+---Quick Remark---
+1) Low variance objects may exist. We don't care.
 
-Important notice: We are relying on the fact that there is STUFF bounding the roads. If the roads are in a totally flat area, with little surrounding terrain,
-since the algorithm doesnt look AT the road, like a normal human, its going to face total failure.
+If there is some planar object,say, a large metal sheet, or even a rod, sticking out of a truck, that is NOT going to get detected.
+Whether or not the car drives into such a rod, killing the passenger, is none of our concern.
+The real objective here is to detect intersections. 
+The curb of the road is what we need. We are flagging the potentially relevant stuff, and then removing the unnecessary data, namely, pedestrians, and vehicles.
+
+2) Important notice: We are relying on the fact that there IS a curb bounding the roads. If the roads do not have a curb, or are in a totally flat area with little surrounding terrain, since the algorithm doesnt look AT the road, but instead what BOUNDS the road, its going to face total failure. This is kind of a big deal.
+---End Remark---
+
+• We have a 2D binary map of the stuff around the vehice. Now, we try to filter out the things that are NOT the curb. To do this, we first search for dense blobs of data, by traversing the map, and picking out 4 connected regions that all totally flagged as 1. Now, we use these to draw a rectangles that bound the desnse blobs. Even parts of the curb may get selected here, so we use the dimensions of this rectangle, to decide which onces are the small objects that need to be removed.
+
+• Now, we have just the curb left, and this will be used for the actual intersection Detection.
+• We frame this as a classification problem and train a Support Vector Machine classifier to do the job.
