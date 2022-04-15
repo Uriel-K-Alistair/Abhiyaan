@@ -1,8 +1,18 @@
-1)
+1) Input sensors
 
+Cameras,RADAR,LIDAR,GNSS are the most common sensors used.
 
+Camera feeds can be hard to work with. 
+Image stitching increasing the real time processing load. 
+The quality of the images we obtain may not be consistent: if the lighting is poor, then shadow effects and lots of other details enter the picture that our system may not be able to handle with ease. 
+Good quality cameras are needed. They must function even under direct sunlight, and must be able to take very clear shots.
+Camera feeds are still incredibly useful, because they often capture crucial information we cannot obtain through other input methods.( a visual feed is almost everything a real human uses to drive a vehicle) 
 
+RADAR and LIDAR
+Both these sensors work by receiving reflected transmissions. RADAR uses a high wavelength, and cannot offer much detail about objects, wheras the high precision of LIDAR allows us to even make 3D models of the environment. RADAR can see through fog,etc where LIDAR doesn't perform well. LIDAR scanners are more sensitive and end up being a bit more expensive.
 
+GNSS may not be reliable in some locations. The data supplied by it alone cannot form a reliable system to drive an autonomous vehicle. 
+Sensor fusion is definitely desirable to ensure that the vehicle can handle any environment. Only then can we consider an autonomous vehicle to be safe for general use.
 ------------------------
 2)3D LIDAR Point Cloud based Intersection Recognition for Autonomous Driving
 
@@ -21,17 +31,17 @@ The real objective here is to detect intersections.
 The curb of the road is what we need. We are flagging the potentially relevant stuff, and then removing the unnecessary data, namely, pedestrians, and vehicles.
 
 2) Important notice: We are relying on the fact that there IS a curb bounding the roads. If the roads do not have a curb, or are in a totally flat area with little surrounding terrain, since the algorithm doesnt look AT the road, but instead what BOUNDS the road, its going to face total failure. This is kind of a big deal.
-Suggestion: Also use some camera feed data to create a reliable alternative system that can also affirm the results of the LIDAR data predictions.
----End Remark---
+Suggestion: Also use some camera feed data to build a more complete picture of the environment, and establish a robust system.
+---End of Remark---
 
-• We have a 2D binary map of the stuff around the vehice. Now, we try to filter out the things that are NOT the curb. To do this, we first search for dense blobs of data, by traversing the map, and picking out 4 connected regions that all totally flagged as 1. Now, we use these to draw a rectangles that bound the desnse blobs. Even parts of the curb may get selected here, so we use the dimensions of this rectangle, to decide which onces are the small objects that need to be removed.
+• We have a 2D binary map of the stuff around the vehice. Now, we try to filter out the things that are NOT the curb. To do this, we first search for dense blobs of data, by traversing the map, and picking out 4 connected regions that all totally flagged as 1. Now, we use these to draw a rectangles that bound the desnse blobs. Even parts of the curb may get selected here, so we use the dimensions of this rectangle, to decide which onces are the objects that need to be removed.
 
 • Now, we have just the curb left, and this will be used for the actual intersection Detection.
 • We frame this as a classification problem and train a Support Vector Machine classifier to do the job.
 • To actually implement this, we need to convert this 2D map into more concise and relevant tabulated data. To do this, we take the distance of the nearest object from the "launch point", at every angle, 1 to 360 degrees. This length when normalised gives us our data. 
 •The launch point itself of course, needs to be fixed to accomplish this. Since the vehicle is moving as it emits and receives the laser, we consider the launch point to be somewhere ahead of the vehicle, and how far away the point is, depends on the speed of the car. In the paper they use D = 5 + v*t . t=1s
 
-Suggestion: It may not be reasonable to expect the velocity to be a constant over a span of one second. A smaller time inverval can be used depending on the variance of the velocity.
+Suggestion: It may not be reasonable to expect the velocity to be a constant over a span of one second. A smaller time inverval can be used depending on the variance of the velocity, and the constraints of the scanner.
 
 •The classifier will first decide if its a straight road or an intersection, and then if its an intersection, it decides if its a T or a + shaped one. Mission Accomplished!
-
+------------------------
