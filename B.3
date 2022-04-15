@@ -1,0 +1,15 @@
+2)3D LIDAR Point Cloud based Intersection Recognition for Autonomous Driving
+
+• The input that we are taking is from a LIDAR scanner. Using light reflection, it gives us the closest reflecting surface at every angle.
+This will give us a 3D point cloud of data, where we can imagine we keep a dot at every point that has an object.
+• We look at the Bird's eye 2D view of this data, and draw a grid to aid us, with the smallest squares being of some dimesion r x r.
+• Each square is now a thin cuboid of data, with dots in places where stuff exists. We take the variance of the heights of these data points.
+If the variance crosses a certain threshold, we flag the grid cell as 1 (meaning "stuff is here.") If its low variance data, we flag it as 0.
+
+Quick Remark:
+If there is some planar object, or even somewhat flat obstacle, say, a large metal sheet sticking out of a truck, that is NOT getting detected.
+Keep in mind that the real objective here is to detect intersections, so this won't be an issue. 
+The walls, buidings, trees or whatever it is that bounds the roads, WILL get detected, and when we filter out the pedestrians and vehicles, we can happily detect the intersections.
+
+Important notice: We are relying on the fact that there is STUFF bounding the roads. If the roads are in a totally flat area, with little surrounding terrain,
+since the algorithm doesnt look AT the road, like a normal human, its going to face total failure.
