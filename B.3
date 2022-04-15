@@ -1,3 +1,9 @@
+1)
+
+
+
+
+------------------------
 2)3D LIDAR Point Cloud based Intersection Recognition for Autonomous Driving
 
 • The input that we are taking is from a LIDAR scanner. Using light reflection, it gives us the closest reflecting surface at every angle.
@@ -15,9 +21,17 @@ The real objective here is to detect intersections.
 The curb of the road is what we need. We are flagging the potentially relevant stuff, and then removing the unnecessary data, namely, pedestrians, and vehicles.
 
 2) Important notice: We are relying on the fact that there IS a curb bounding the roads. If the roads do not have a curb, or are in a totally flat area with little surrounding terrain, since the algorithm doesnt look AT the road, but instead what BOUNDS the road, its going to face total failure. This is kind of a big deal.
+Suggestion: Also use some camera feed data to create a reliable alternative system that can also affirm the results of the LIDAR data predictions.
 ---End Remark---
 
 • We have a 2D binary map of the stuff around the vehice. Now, we try to filter out the things that are NOT the curb. To do this, we first search for dense blobs of data, by traversing the map, and picking out 4 connected regions that all totally flagged as 1. Now, we use these to draw a rectangles that bound the desnse blobs. Even parts of the curb may get selected here, so we use the dimensions of this rectangle, to decide which onces are the small objects that need to be removed.
 
 • Now, we have just the curb left, and this will be used for the actual intersection Detection.
 • We frame this as a classification problem and train a Support Vector Machine classifier to do the job.
+• To actually implement this, we need to convert this 2D map into more concise and relevant tabulated data. To do this, we take the distance of the nearest object from the "launch point", at every angle, 1 to 360 degrees. This length when normalised gives us our data. 
+•The launch point itself of course, needs to be fixed to accomplish this. Since the vehicle is moving as it emits and receives the laser, we consider the launch point to be somewhere ahead of the vehicle, and how far away the point is, depends on the speed of the car. In the paper they use D = 5 + v*t . t=1s
+
+Suggestion: It may not be reasonable to expect the velocity to be a constant over a span of one second. A smaller time inverval can be used depending on the variance of the velocity.
+
+•The classifier will first decide if its a straight road or an intersection, and then if its an intersection, it decides if its a T or a + shaped one. Mission Accomplished!
+
