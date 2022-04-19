@@ -70,9 +70,7 @@ def move_turtles():
     # just stuff a linearv=0, angularv=delta theta/dt, and then feed the updated velocity as linear with angular 0.
     # If we just stuff linear and angular together, the angle the turtle should face now, will be faced in time dt. 
     # That is, the angular velocity lags behind the linear velocity by time dt. 
-    # Since dt is small, le's just ignore the lag.
-    
-    
+    # Since dt is small, let's just ignore the lag.    
           
     while not rospy.is_shutdown():
     
