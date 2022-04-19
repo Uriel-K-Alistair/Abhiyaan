@@ -1,5 +1,6 @@
-The name of the package used is beginner_tutorials. (xD)
-The launch file will launch 3 nodes, talker, listener and reverser.
+The name of the package used is abhiyaan.
+
+The task2 launch file will launch 3 nodes, talker, listener and reverser.
 
 Talker publishes "Team abhiyaan rocks" to /team_abhiyaan
 Reverser subscribes to /team_abhiyaan, reverses the individual words and publishes to /naayihba_maet
@@ -7,7 +8,8 @@ Reverser subscribes to /team_abhiyaan, reverses the individual words and publish
 Neither of these print anything to the console.
 
 Listen just subscribes to /team_abhiyaan and prints the feed.
+This will flood your console.
 
 All topic feeds can be checked using echo.
 
-
+The task3 launch file will do its thing :)
