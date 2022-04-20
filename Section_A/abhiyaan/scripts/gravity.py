@@ -6,12 +6,12 @@ import sys
 import math
 import subprocess
 
-subprocess.run(["rosservice","call","/kill","'turtle1'"])
-subprocess.run(['rosservice', 'call', '/spawn', '5', '7', '0.5', '"turtle1"'])
-subprocess.run(['rosservice', 'call', '/spawn', '--', '7', '7', '-1.5', '"turtle2"'])
+# First three denote the position and orientation of the first turtle. Next 3 second. t stands for theta.
+x1,y1,t1,x2,y2,t2 = 5,7,0.5,7,7,-1.5
 
-x1,y1,t1,x2,y2,t2 = 3,3,0,8,8,-1.5707
-# First three denote the position of the first turtle. NExt 3 second. t stands for theta.
+subprocess.run(["rosservice","call","/kill","'turtle1'"])
+subprocess.run(['rosservice', 'call', '/spawn', '--', str(x1), str(y1), str(t1), '"turtle1"'])
+subprocess.run(['rosservice', 'call', '/spawn', '--', str(x1), str(y1), str(t1), '"turtle2"'])
 
 # The following 2 functions will keep us upto date with the positions of the 2 turtles using the subscription feeds.
 
