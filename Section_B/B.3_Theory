@@ -15,7 +15,12 @@ RADAR can see through fog, etc where LIDAR doesn't perform well. LIDAR scanners 
 
 GNSS may not be reliable in some locations. The data supplied by it alone cannot form a reliable system to drive an autonomous vehicle. 
 Sensor fusion is desirable to ensure that the vehicle can handle any environment. Only then can we consider an autonomous vehicle safe for general use.
-Sensor fusion is NOT a redundancy system. We use multiple sensors using a common time reference, and are caliberated to capture data in a common region in the physical world. A multi branch nueral network is designed to use all the sensor data to make a single final decision. Each sensors input is given a feature map separately, and then these are merged together before the neural network is trained. This is one major way to implement sensor fusion. Extremely similar inputs can be merged together in the input stage itself, and be given one single feature map. Eg: IR and camera feeds can be effectively merged.
+Sensor fusion is NOT a redundancy system. We use multiple sensors using a common time reference, and are caliberated to capture data in a common region in the physical world. 
+A multi branch nueral network is designed to use all the sensor data to make a single final decision. 
+Each sensors input is given a feature map separately, and then these are merged together before the neural network is trained. 
+This is one major way to implement sensor fusion. 
+Extremely similar inputs can be merged together in the input stage itself, and be given one single feature map. Eg: IR and camera feeds can be effectively merged.
+There are some other methods too, but the basic idea is to use the proficiencies of each sensor to form a collectively complete detection.
 ------------------------
 2)3D LIDAR Point Cloud-based Intersection Recognition for Autonomous Driving
 
